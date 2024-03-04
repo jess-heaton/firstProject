@@ -23,12 +23,27 @@
     a:hover {
       background-color: #d32f2f;
     }
+
+    .edit-profile-btn {
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+  
+    .edit-profile-btn:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
   <div class="profile-container">
     <h1>Welcome, <%= username %>!</h1>
     <p>This is your profile page.</p>
+    <a href="/edit-profile" class="edit-profile-btn">Create listing</a>
     <a href="/logout">Logout</a>
   </div>
 </body>

@@ -1,0 +1,116 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 10px 20px;
+}
+  
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    font-family: 'Nunito', sans-serif;
+}
+  
+.navbar a:hover {
+    color: #000;
+}
+
+#filter-form {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f7f7f7;
+  margin-top: 10px;
+}
+
+#filter-form input,
+#filter-form select,
+#filter-form button {
+  padding: 10px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#filter-form button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+}
+
+.profile-card {
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.save-profile-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    outline: none; /* Removes the focus outline */
+    cursor: pointer;
+    color: #ccc; /* Light grey color, switch to red when active */
+    font-size: 1.5em; /* Larger heart icon */
+}
+
+.save-profile-button:hover,
+.save-profile-button:focus { /* Styles for hover and focus states */
+  color: #ff6868; /* Airbnb's heart color, change if needed */
+}
+
+/* You may want to toggle a class when the profile is saved to change the color of the heart */
+.profile-card .save-profile-button.saved {
+  color: #ff6868; /* Change color to signify saved status */
+}
+
+
+.profile-info {
+  padding: 20px;
+}
+
+.profile-info h2 {
+  color: #333;
+  font-size: 24px;
+}
+
+.profile-info p {
+  color: #666;
+  font-size: 16px;
+}
+
+button {
+  align-self: center;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+.grid-container {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}

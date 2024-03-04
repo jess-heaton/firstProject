@@ -72,19 +72,19 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-    try {
-      const { username, password, bio, age, gender, course } = req.body;
-      
-      // Create a new user instance and save it to the database
-      const newUser = new User({ username, password, bio, age, gender, course, tags: req.body.tags });
-      await newUser.save();
-      
-      res.redirect('/login');
-    } catch (error) {
-      console.log(error);
-      res.send('Failed to register user.');
-    }
+  const { username, password } = req.body;
+  
+  try {
+    const newUser = new User({ username, password });
+    await newUser.save();
+    
+    res.redirect('/login');
+  } catch (error) {
+    console.log(error);
+    res.send('Failed to register user.');
+  }
 });
+
 
 // Profile Route
 app.get('/profile', (req, res) => {
@@ -117,7 +117,11 @@ app.get('/profiles', async (req, res) => {
   
       try {
         const profiles = await User.find(query); // Use the query to filter profiles
-        res.render('profiles', { profiles });
+        // Fetch the current user to get their saved profiles
+        const currentUser = await User.findById(req.session.userId);
+        // Make sure to handle the case where currentUser might be null
+        const savedProfiles = currentUser ? currentUser.savedProfiles.map(profile => profile.toString()) : [];
+        res.render('profiles', { profiles, savedProfiles });
       } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
@@ -126,6 +130,34 @@ app.get('/profiles', async (req, res) => {
       res.redirect('/login');
     }
 });
+
+
+app.get('/edit-profile', (req, res) => {
+  if (req.session.loggedin) {
+    res.render('edit-profile', { username: req.session.username });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+
+app.post('/edit-profile', async (req, res) => {
+  if (!req.session.loggedin) {
+    return res.redirect('/login');
+  }
+  
+  const { bio, age, gender, course, tags } = req.body;
+  const userId = req.session.userId;
+
+  try {
+    await User.findByIdAndUpdate(userId, { bio, age, gender, course, tags });
+    res.redirect('/profile');
+  } catch (error) {
+    console.error(error);
+    res.send('Failed to update profile.');
+  }
+});
+
 
 app.get('/profile/:id', async (req, res) => {
     try {
@@ -149,10 +181,23 @@ app.post('/save-profile/:id', async (req, res) => {
     try {
       const userId = req.session.userId; // Or another way to identify the current user
       const profileToSaveId = req.params.id;
-      
-      await User.findByIdAndUpdate(userId, {
-        $addToSet: { savedProfiles: profileToSaveId }
-      });
+
+
+      // Find the current user
+      const currentUser = await User.findById(userId);
+
+      // Check if the profile is already saved
+      if (currentUser.savedProfiles.includes(profileToSaveId)) {
+        // Profile is already saved; remove it
+        await User.findByIdAndUpdate(userId, {
+          $pull: { savedProfiles: profileToSaveId }
+        });
+      } else {
+        // Profile not saved yet; add it
+        await User.findByIdAndUpdate(userId, {
+          $addToSet: { savedProfiles: profileToSaveId }
+        });
+      }
       
       res.status(200).send('Profile saved');
     } catch (error) {
