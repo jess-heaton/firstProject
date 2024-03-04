@@ -25,7 +25,15 @@ const UserSchema = new mongoose.Schema({
   course: {
     type: String,
     required: false // Optional field
-  }
+  },
+
+  savedProfiles: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+
+  tags: [String]
+
   // Add any other fields you find necessary
 });
 

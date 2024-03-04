@@ -78,11 +78,19 @@
   <div class="navbar">
     <a href="/" class="site-name">MatchMate</a>
     <a href="/profile">Profile</a>
+    <a href="/saved-profiles">Saved Profiles</a>
   </div>
   <form id="filter-form" action="/profiles" method="GET">
     <input type="text" name="course" placeholder="Course">
     <input type="number" name="minAge" placeholder="Min Age">
     <input type="number" name="maxAge" placeholder="Max Age">
+    <select name="tag" id="tagFilter">
+        <option value="">Select a tag to filter by</option>
+        <option value="sporty">Sporty</option>
+        <option value="gamer">Gamer</option>
+        <option value="fashion">Fashionista</option>
+        <option value="clubbing">Clubber</option>
+    </select>           
     <button type="submit">Filter</button>
   </form>  
   <div class="grid-container">
@@ -99,8 +107,34 @@
             <!-- Display other user information here -->
             </div>
         </a>
+        <button onclick="saveProfile('<%= user._id %>')">Save Profile</button>
       </div>
     <% }); %>
   </div>
+  <script>
+    function saveProfile(profileId) {
+      fetch('/save-profile/' + profileId, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Include CSRF token if needed
+        },
+        body: JSON.stringify({ profileId: profileId }),
+        credentials: 'include' // If you're managing sessions
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Profile saved!');
+          // Update the UI to reflect the change
+        } else {
+          response.text().then(text => { alert(text); });
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while saving the profile.');
+      });
+    }
+  </script>
 </body>
 </html>

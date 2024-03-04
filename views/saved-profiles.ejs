@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Saved Profiles - MatchMate</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f7f7;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 0 20px;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #333;
+      padding: 20px;
+      display: inline-block;
+    }
+    .navbar a:hover {
+      color: #000;
+    }
+    .site-name {
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .profile-card {
+      background-color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .profile-card:hover {
+      transform: translateY(-5px);
+    }
+    .profile-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .profile-info {
+      padding: 15px;
+    }
+    .profile-info h2 {
+      margin: 0 0 10px 0;
+      color: #333;
+      font-size: 20px;
+    }
+    .profile-info p {
+      margin: 4px 0;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/" class="site-name">MatchMate</a>
+    <a href="/profile">Profile</a>
+    <a href="/saved-profiles">Saved Profiles</a>
+  </div>
+  <div class="grid-container">
+    <% if (profiles && profiles.length > 0) { %>
+      <% profiles.forEach(function(user) { %>
+        <div class="profile-card">
+          <a href="/profile/<%= user._id %>">
+              <img src="<%= user.image ? user.image : '/images/default-profile.jpg' %>" alt="<%= user.username %>">
+              <div class="profile-info">
+              <h2><%= user.username %></h2>
+              <p><%= user.bio %></p>
+              <p>Age: <%= user.age %></p>
+              <p>Gender: <%= user.gender %></p>
+              <p>Course: <%= user.course %></p>
+              </div>
+          </a>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No profiles saved yet.</p>
+    <% } %>
+  </div>
+</body>
+</html>

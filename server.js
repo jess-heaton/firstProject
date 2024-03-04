@@ -55,6 +55,7 @@ app.post('/login', async (req, res) => {
       if (user && user.password === password) { // You should hash passwords in a real app
         req.session.loggedin = true;
         req.session.username = username;
+        req.session.userId = user._id;
         res.redirect('/profiles');
       } else {
         res.send('Incorrect Username and/or Password!');
@@ -75,7 +76,7 @@ app.post('/register', async (req, res) => {
       const { username, password, bio, age, gender, course } = req.body;
       
       // Create a new user instance and save it to the database
-      const newUser = new User({ username, password, bio, age, gender, course });
+      const newUser = new User({ username, password, bio, age, gender, course, tags: req.body.tags });
       await newUser.save();
       
       res.redirect('/login');
@@ -97,7 +98,7 @@ app.get('/profile', (req, res) => {
 app.get('/profiles', async (req, res) => {
     if (req.session.loggedin) {
       const query = {};
-      const { course, minAge, maxAge } = req.query;
+      const { course, minAge, maxAge, tag } = req.query;
   
       if (course) {
         query.course = course;
@@ -112,6 +113,7 @@ app.get('/profiles', async (req, res) => {
           query.age = { $lte: maxAge };
         }
       }
+      if (tag) query.tags = tag; 
   
       try {
         const profiles = await User.find(query); // Use the query to filter profiles
@@ -132,6 +134,45 @@ app.get('/profile/:id', async (req, res) => {
         res.render('individual-profile', { user }); // Render a view called 'individual-profile.ejs'
       } else {
         res.status(404).send('Profile not found');
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Server Error');
+    }
+});
+  
+app.post('/save-profile/:id', async (req, res) => {
+    if (!req.session.loggedin) {
+      return res.status(401).send('You must be logged in to save profiles');
+    }
+    
+    try {
+      const userId = req.session.userId; // Or another way to identify the current user
+      const profileToSaveId = req.params.id;
+      
+      await User.findByIdAndUpdate(userId, {
+        $addToSet: { savedProfiles: profileToSaveId }
+      });
+      
+      res.status(200).send('Profile saved');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error saving profile');
+    }
+});
+  
+app.get('/saved-profiles', async (req, res) => {
+    if (!req.session.loggedin) {
+      return res.redirect('/login');
+    }
+    
+    try {
+      // Assuming you store the logged-in user's ID in the session
+      const user = await User.findById(req.session.userId).populate('savedProfiles');
+      if (user) {
+        res.render('saved-profiles', { profiles: user.savedProfiles });
+      } else {
+        res.status(404).send('User not found');
       }
     } catch (error) {
       console.error(error);
