@@ -5,8 +5,10 @@ const path = require('path');
 const mongoose = require('mongoose'); // Import mongoose
 const User = require('./models/User');
 
+
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
 
 
 // Connect to MongoDB
@@ -113,11 +115,12 @@ app.get('/profiles', async (req, res) => {
           query.age = { $lte: maxAge };
         }
       }
-      if (req.query.tag) {
-        query.tags = req.query.tag;
+      if (req.query.tags) {
+        query.tags = req.query.tags;
       }
   
       try {
+        console.log(query); // Add this to debug the query
         const profiles = await User.find(query); // Use the query to filter profiles
         // Fetch the current user to get their saved profiles
         const currentUser = await User.findById(req.session.userId);
@@ -149,17 +152,41 @@ app.get('/edit-profile', (req, res) => {
   }
 });
 
-
 app.post('/edit-profile', async (req, res) => {
   if (!req.session.loggedin) {
     return res.redirect('/login');
   }
-  
-  const { bio, age, gender, course, tags } = req.body;
+
+  const {
+    firstName,
+    lastName,
+    birthdate,
+    gender,
+    tags, 
+    lookingFor,
+    moveInTimeframe,
+    customMoveInDate,
+    monthlyBudget,
+    budgetIncludesBills,
+    about,
+  } = req.body;
+
   const userId = req.session.userId;
 
   try {
-    await User.findByIdAndUpdate(userId, { bio, age, gender, course, tags });
+    await User.findByIdAndUpdate(userId, {
+      firstName,
+      lastName,
+      birthdate,
+      gender,
+      tags,
+      lookingFor,
+      moveInTimeframe,
+      customMoveInDate,
+      monthlyBudget,
+      budgetIncludesBills: budgetIncludesBills === 'yes',
+      about,
+    });
     res.redirect('/profile');
   } catch (error) {
     console.error(error);

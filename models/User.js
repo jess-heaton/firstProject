@@ -10,31 +10,56 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  bio: {
+  // Adding personal details fields from the listing form
+  firstName: {
     type: String,
-    required: false // Optional field
+    required: false // Assuming this is mandatory
   },
-  age: {
-    type: Number,
-    required: false // Optional field
+  lastName: {
+    type: String,
+    required: false // Assuming this is mandatory
+  },
+  birthdate: {
+    type: Date,
+    required: false // Assuming this is mandatory
   },
   gender: {
     type: String,
-    required: false // Optional field
+    enum: ['male', 'female', 'non-binary'], // Ensures the gender is one of these values
+    required: false
   },
-  course: {
+  tags: [{
+    type: String, // Could be an array of strings to capture multiple interests
+  }],
+  lookingFor: {
     type: String,
-    required: false // Optional field
+    required: false // Set to true if mandatory
   },
-
+  moveInTimeframe: {
+    type: String,
+    required: false
+  },
+  customMoveInDate: {
+    type: Date,
+    required: false
+  },
+  monthlyBudget: {
+    type: Number,
+    required: false
+  },
+  budgetIncludesBills: {
+    type: Boolean,
+    required: false
+  },
+  about: {
+    type: String,
+    required: false // Assuming this is optional
+  },
   savedProfiles: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
-
-  tags: [String]
-
-  // Add any other fields you find necessary
 });
 
 module.exports = mongoose.model('User', UserSchema);
+

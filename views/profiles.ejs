@@ -9,7 +9,6 @@
 
 <body class="font-sans h-full">
     <div class="min-h-full">
-        <!-- Navigation simplified and made consistent -->
         <nav class="bg-gray-800">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 items-center justify-between">
@@ -25,7 +24,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Profile and notifications simplified -->
                     <div class="hidden md:flex items-center space-x-4">
                         <a href="#" class="text-gray-300 hover:text-white">Notifications</a>
                         <a href="/profile" class="text-gray-300 hover:text-white">Profile</a>
@@ -36,10 +34,11 @@
 
         <!-- Main content header -->
         <header class="bg-white shadow">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold text-gray-900">Listings</h1>
-            </div>
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <h1 class="text-6xl font-bold text-gray-900">Listings</h1>
+          </div>
         </header>
+
 
         <!-- Main content area -->
         <main class="py-6 sm:px-6 lg:px-8">
@@ -49,37 +48,53 @@
                     <input type="text" name="course" placeholder="Course" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     <input type="number" name="minAge" placeholder="Min Age" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     <input type="number" name="maxAge" placeholder="Max Age" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <select name="tag" id="tagFilter" class="flex-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                        <option value="">Select a tag to filter by</option>
-                        <option value="sporty">Sporty</option>
-                        <option value="gamer">Gamer</option>
-                        <option value="fashion">Fashionista</option>
-                        <option value="clubbing">Clubber</option>
-                    </select>
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
                 </form>
 
-                <!-- Profiles listing -->
+                <div class="flex justify-between p-4 bg-white shadow sm:rounded-lg mt-4">
+                  <a href="/profiles" class="text-gray-500 hover:text-gray-700 py-2">All</a>
+                  <a href="/profiles?tags=sports" class="text-gray-500 hover:text-gray-700 py-2">Sports</a>
+                  <a href="/profiles?tags=clubbing" class="text-gray-500 hover:text-gray-700 py-2">Clubbing</a>
+                  <a href="/profiles?tags=arts" class="text-gray-500 hover:text-gray-700 py-2">Arts</a>
+                  <a href="/profiles?tags=veggie" class="text-gray-500 hover:text-gray-700 py-2">Veggie</a>
+                  <a href="/profiles?tags=stem"class="text-gray-500 hover:text-gray-700 py-2">STEM</a>
+                  <a href="/profiles?tags=lgbtq2s-plus"class="text-gray-500 hover:text-gray-700 py-2">LGBTQ+</a>
+                  <a href="/profiles?tags=party" class="text-gray-500 hover:text-gray-700 py-2">Party</a>
+                  <a href="/profiles?tags=quiet" class="text-gray-500 hover:text-gray-700 py-2">Quiet</a>
+
+                </div>
+
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 p-4">
                     <% profiles.forEach(function(user) { %>
-                    <div class="profile-card bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow duration-200 ease-in-out">
-                        <div class="p-4">
-                            <button class="save-profile-button text-gray-400 hover:text-red-500 focus:outline-none">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                              </svg>          
-                            </button>
-                            <h3 class="text-lg font-semibold text-gray-800"><%= user.username %></h3>
-                            <p class="text-gray-600"><%= user.gender %>, <%= user.age %></p>
-                            <div class="text-left text-base mb-8 text-gray-500">Looking for a housemate</div> <!-- Increased margin-bottom from mb-6 to mb-8 -->
-                            <div class="text-left text-base mb-8 text-gray-500">Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content</div> <!-- Increased margin-bottom from mb-6 to mb-8 -->
-                        </div>
-                    </div>
+                      <a href="/profile/<%= user._id %>" class="profile-card-link"> <!-- Add this line -->
+                        <div class="profile-card bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow duration-200 ease-in-out">
+                            <div class="p-4">
+                                <button class="save-profile-button text-gray-400 hover:text-red-500 focus:outline-none">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                  </svg>          
+                                </button>
+                                <h3 class="text-lg font-semibold text-gray-800"><%= user.username %></h3>
+                                <p class="text-gray-600"><%= user.gender %>, <%= user.age %></p>
+                                <div class="text-left text-base mb-8 text-gray-500">Looking for a housemate</div> <!-- Increased margin-bottom from mb-6 to mb-8 -->
+                                <div class="text-left text-base mb-8 text-gray-500">Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content</div> <!-- Increased margin-bottom from mb-6 to mb-8 -->
+                            </div>
+                          </div>
+                        </a> 
                     <% }); %>
                 </div>
             </div>
         </main>
     </div>
+
+
+
+
+
+
+
+
+
 
     <script>
       function saveProfile(profileId) {
@@ -108,6 +123,9 @@
         });
       }
     </script>
+
+
+
       <!-- Script for handling filter option clicks -->
       <script>
         document.addEventListener('DOMContentLoaded', () => {

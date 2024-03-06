@@ -6,33 +6,133 @@
   <link rel="stylesheet" href="/dist/style.css">
 </head>
 <body class="flex justify-center items-center min-h-screen bg-gray-100">
-  <form class="w-full max-w-2xl px-6 py-12 bg-white shadow rounded-lg">
+  <form class="w-full max-w-2xl px-6 py-12 bg-white shadow rounded-lg" method="POST" action="/edit-profile">
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Create Listing</h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+            <label for="firstName" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
             <div class="mt-2">
-              <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input type="text" name="firstName" id="firstName autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
           </div>
           <div class="sm:col-span-3">
-            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
+            <label for="lastName" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
             <div class="mt-2">
-              <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input type="text" name="lastName" id="lastName" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
           </div>
-          <div class="sm:col-span-4">
-            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-            <div class="mt-2">
-              <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
+
+
+
+          <div class="sm:col-span-3">
+            <label for="birthdate" class="block text-sm font-medium leading-6 text-gray-900">Birthdate</label>
+            <input type="date" name="birthdate" id="birthdate" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300" required>
           </div>
+
+          
+          <div class="sm:col-span-3">
+            <label for="gender" class="block text-sm font-medium leading-6 text-gray-900">Gender</label>
+            <select id="gender" name="gender" autocomplete="gender" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-binary</option>
+            </select>
+          </div>
+
+
           <div class="sm:col-span-6">
-            <label for="looking-for" class="block text-sm font-medium leading-6 text-gray-900">Looking for</label>
-            <select id="looking-for" name="looking-for" autocomplete="looking-for" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300">
+            <fieldset>
+              <legend class="text-sm font-medium leading-6 text-gray-900">Interests</legend>
+              <div class="mt-4 space-y-4">
+
+
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="sports" name="tags[]" type="checkbox" value="sports" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="sports" class="font-medium text-gray-700">Sports</label>
+                  </div>
+                </div>
+
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="clubbing" name="tags[]" type="checkbox" value="clubbing" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="clubbing" class="font-medium text-gray-700">Clubbing</label>
+                  </div>
+                </div>
+
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="arts" name="tags[]" type="checkbox" value="arts" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="arts" class="font-medium text-gray-700">Arts</label>
+                  </div>
+                </div>
+          
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="stem" name="tags[]" type="checkbox" value="stem" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="stem" class="font-medium text-gray-700">STEM</label>
+                  </div>
+                </div>
+          
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="lgbtq2s-plus" name="tags[]" type="checkbox" value="lgbtq2s+" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="lgbtq2s-plus" class="font-medium text-gray-700">LGBTQ2S+</label>
+                  </div>
+                </div>
+          
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="party" name="tags[]" type="checkbox" value="party" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="party" class="font-medium text-gray-700">Party</label>
+                  </div>
+                </div>
+          
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="quiet" name="tags[]" type="checkbox" value="quiet" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="quiet" class="font-medium text-gray-700">Quiet</label>
+                  </div>
+                </div>
+          
+                <div class="flex items-start">
+                  <div class="flex items-center h-5">
+                    <input id="veggie" name="tags[]" type="checkbox" value="veggie" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="veggie" class="font-medium text-gray-700">Veggie</label>
+                  </div>
+                </div>
+          
+
+                
+              </div>
+            </fieldset>
+          </div>
+
+
+
+
+          <div class="sm:col-span-6">
+            <label for="lookingFor" class="block text-sm font-medium leading-6 text-gray-900">Looking for</label>
+            <select id="lookingFor" name="lookingFor" autocomplete="lookingFor" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300">
               <option value="group">Group</option>
               <option value="room">Room</option>
               <option value="1">1 person</option>
@@ -45,29 +145,41 @@
               <option value="7+">More than 7 people</option>
             </select>
           </div>
+
+              
+          <!-- Move-in Timeframe -->
           <div class="sm:col-span-6">
-            <fieldset>
-              <legend class="text-sm font-medium leading-6 text-gray-900">Interests</legend>
-              <div class="mt-4 space-y-4">
-                <div class="flex items-start">
-                  <div class="flex items-center h-5">
-                    <input id="sports" name="tags" type="checkbox" value="sports" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                  </div>
-                  <div class="ml-3 text-sm">
-                    <label for="sports" class="font-medium text-gray-700">Sports</label>
-                  </div>
-                </div>
-                <div class="flex items-start">
-                  <div class="flex items-center h-5">
-                    <input id="clubbing" name="tags" type="checkbox" value="clubbing" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                  </div>
-                  <div class="ml-3 text-sm">
-                    <label for="clubbing" class="font-medium text-gray-700">Clubbing</label>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
+            <label for="moveInTimeframe" class="block text-sm font-medium leading-6 text-gray-900">Move-in Timeframe</label>
+            <select id="moveInTimeframe" name="moveInTimeframe" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300">
+              <option value="next-year">Next Academic Year (e.g., 24/25)</option>
+              <option value="asap">ASAP</option>
+              <option value="custom">Custom Date</option>
+            </select>
           </div>
+
+          <!-- Custom Move-in Date (hidden by default, shown if 'Custom Date' is selected) -->
+          <div class="sm:col-span-6 hidden" id="custom-date-picker">
+            <label for="customMoveInDate" class="block text-sm font-medium leading-6 text-gray-900">Custom Move-in Date</label>
+            <input type="date" name="customMoveInDate" id="customMoveInDate" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300">
+          </div>
+
+          <!-- Budget -->
+          <div class="sm:col-span-3">
+            <label for="monthlyBudget" class="block text-sm font-medium leading-6 text-gray-900">Monthly Budget</label>
+            <input type="number" name="monthlyBudget" id="monthlyBudget" placeholder="Enter your budget" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300">
+          </div>
+
+          <div class="sm:col-span-3">
+            <label for="budgetIncludesBills" class="block text-sm font-medium leading-6 text-gray-900">Budget Includes Bills</label>
+            <select id="budgetIncludesBills" name="budgetIncludesBills" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300">
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+
+          
+
           <div class="col-span-full">
             <label for="about" class="block text-sm font-medium leading-6 text-gray-900">About</label>
             <div class="mt-2">
@@ -75,95 +187,11 @@
             </div>
             <p class="mt-3 text-sm leading-6 text-gray-600">Write a couple sentences about yourself.</p>
           </div>
-          <div class="sm:col-span-3">
-            <label for="birthdate" class="block text-sm font-medium leading-6 text-gray-900">Birthdate</label>
-            <input type="date" name="birthdate" id="birthdate" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300" required>
-          </div>
-          <div class="sm:col-span-3">
-            <label for="gender" class="block text-sm font-medium leading-6 text-gray-900">Gender</label>
-            <select id="gender" name="gender" autocomplete="gender" class="mt-2 block w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300">
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="non-binary">Non-binary</option>
-            </select>
-          </div>
-          <div class="col-span-full">
-            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Upload a photo</label>
-            <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-              <div class="text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
-                </svg>
-                <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                  <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                    <span>Upload a file</span>
-                    <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                  </label>
-                  <p class="pl-1">or drag and drop</p>
-                </div>
-                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-              </div>
-            </div>
-            <p class="mt-3 text-sm leading-6 text-gray-600">With your pet, doing your fav sport or at home - keep it fun!</p>
-          </div>
         </div>
       </div>
-      <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">Notifications</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">When do you want us to contact you</p>
-        <div class="mt-10 space-y-10">
-          <fieldset>
-            <legend class="text-sm font-semibold leading-6 text-gray-900">By Email</legend>
-            <div class="mt-6 space-y-6">
-              <div class="relative flex gap-x-3">
-                <div class="flex h-6 items-center">
-                  <input id="comments" name="comments" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                </div>
-                <div class="text-sm leading-6">
-                  <label for="comments" class="font-medium text-gray-900">Comments</label>
-                  <p class="text-gray-500">Get notified when someone contacts you.</p>
-                </div>
-              </div>
-              <div class="relative flex gap-x-3">
-                <div class="flex h-6 items-center">
-                  <input id="candidates" name="candidates" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                </div>
-                <div class="text-sm leading-6">
-                  <label for="candidates" class="font-medium text-gray-900">Candidates</label>
-                  <p class="text-gray-500">Get notified when there is a listing we think you'll like.</p>
-                </div>
-              </div>
-              <div class="relative flex gap-x-3">
-                <div class="flex h-6 items-center">
-                  <input id="offers" name="offers" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                </div>
-                <div class="text-sm leading-6">
-                  <label for="offers" class="font-medium text-gray-900">Offers</label>
-                  <p class="text-gray-500">Get notified when there is a new listing.</p>
-                </div>
-              </div>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="text-sm font-semibold leading-6 text-gray-900">Push Notifications</legend>
-            <p class="mt-1 text-sm leading-6 text-gray-600">These are delivered via SMS to your mobile phone.</p>
-            <div class="mt-6 space-y-6">
-              <div class="flex items-center gap-x-3">
-                <input id="push-everything" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-everything" class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
-              </div>
-              <div class="flex items-center gap-x-3">
-                <input id="push-email" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-email" class="block text-sm font-medium leading-6 text-gray-900">Same as email</label>
-              </div>
-              <div class="flex items-center gap-x-3">
-                <input id="push-nothing" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
-      </div>
+
+
+
     </div>
     <div class="mt-6 flex items-center justify-end gap-x-6">
       <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
