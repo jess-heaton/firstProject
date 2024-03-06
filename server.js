@@ -113,7 +113,9 @@ app.get('/profiles', async (req, res) => {
           query.age = { $lte: maxAge };
         }
       }
-      if (tag) query.tags = tag; 
+      if (req.query.tag) {
+        query.tags = req.query.tag;
+      }
   
       try {
         const profiles = await User.find(query); // Use the query to filter profiles
@@ -121,7 +123,14 @@ app.get('/profiles', async (req, res) => {
         const currentUser = await User.findById(req.session.userId);
         // Make sure to handle the case where currentUser might be null
         const savedProfiles = currentUser ? currentUser.savedProfiles.map(profile => profile.toString()) : [];
-        res.render('profiles', { profiles, savedProfiles });
+        // Check if the request is an AJAX call
+        if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+          // Send JSON response for AJAX request
+          res.json(profiles);
+        } else {
+          // Render page for normal request
+          res.render('profiles', { profiles, savedProfiles });
+        }
       } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
