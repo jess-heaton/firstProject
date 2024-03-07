@@ -45,7 +45,16 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
   res.render('login');
 });
-
+function calculateAge(birthdate) {
+  const birthday = new Date(birthdate);
+  const today = new Date();
+  let age = today.getFullYear() - birthday.getFullYear();
+  const m = today.getMonth() - birthday.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+    age--;
+  }
+  return age;
+}
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -97,16 +106,7 @@ app.get('/profile', (req, res) => {
   }
 });
 
-function calculateAge(birthdate) {
-  const birthday = new Date(birthdate);
-  const today = new Date();
-  let age = today.getFullYear() - birthday.getFullYear();
-  const m = today.getMonth() - birthday.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
-    age--;
-  }
-  return age;
-}
+
 
 
 app.get('/profiles', async (req, res) => {
@@ -226,21 +226,25 @@ app.post('/edit-profile', async (req, res) => {
   }
 });
 
-
+// This is the corrected part of your route handler
 app.get('/profile/:id', async (req, res) => {
-    try {
-      const user = await User.findById(req.params.id);
-      if (user) {
-        res.render('individual-profile', { user }); // Render a view called 'individual-profile.ejs'
-      } else {
-        res.status(404).send('Profile not found');
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Server Error');
-    }
+  try {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      const age = calculateAge(user.birthdate); // Here you calculate the age
+      const userObject = user.toObject(); // Convert Mongoose document to a plain JavaScript object
+      userObject.age = age; // Add the age property to the user object
 
+      res.render('individual-profile', { user: userObject }); // Pass the user object with the age property to the view
+    } else {
+      res.status(404).send('Profile not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
 });
+
 
 
 app.post('/save-profile/:id', async (req, res) => {

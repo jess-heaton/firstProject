@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-gray-100">
 <head>
   <meta charset="UTF-8">
   <title>Flat Chicken Listing</title>
   <link rel="stylesheet" href="/dist/style.css">
 </head>
-<body class="font-sans h-full">
-  <div class="min-h-full">
-    <nav class="bg-gray-800">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<body class="font-sans h-full bg-gray-100">
+  <nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="flex h-16 items-center justify-between">
               <div class="flex items-center">
                   <a href="/" class="flex-shrink-0">
@@ -22,7 +21,6 @@
                       </div>
                   </div>
               </div>
-
               <div class="hidden md:flex items-center space-x-4">
                   <a href="#" class="text-gray-300 hover:text-white">Notifications</a>
                   <a href="/profile" class="text-gray-300 hover:text-white">Profile</a>
@@ -31,28 +29,44 @@
       </div>
     </nav>
 
-    <div class="px-4 sm:px-0">
-      <h3 class="text-base font-semibold leading-7 text-gray-900"><%= user.username %></h3>
-      <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500"><%= user.gender %>, <%= user.age %></p>
-    </div>
-    <div class="mt-6 border-t border-gray-100">
-      <dl class="divide-y divide-gray-100">
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900">Looking for</dt>
-          <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">housemate/ grp/ 1 person/ etcc..</dd>
+    <div class="flex items-center justify-center min-h-full py-12 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-4 py-5 sm:p-6">
+          <!-- Profile Introduction Section -->
+          <div class="px-4 sm:px-0">
+            <h3 class="text-lg font-medium leading-6 text-gray-900"><%= user.firstName %> <%= user.lastName %></h3>
+            <p class="mt-1 text-sm text-gray-500"><%= user.gender %>, <%= user.age %></p>
+          </div>
+          <div class="border-t border-gray-200">
+            <div class="border-t border-gray-200">
+              <dl class="divide-y divide-gray-200">
+                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">Looking for</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><%= user.lookingFor %></dd>
+                </div>
+                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">Move in</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><%= user.moveInTimeframe %></dd>
+                </div>
+                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">Budget</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><%= user.monthlyBudget %> per month</dd>
+                </div>
+                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">About</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><%= user.about %></dd>
+                </div>
+                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">Contact</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><%= user.username %></dd>
+                </div>
+              </dl>
+            </div>
+          </div>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900">bio</dt>
-          <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">blah blah blah</dd>
-        </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900">email</dt>
-          <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">blah@gmail.com</dd>
-        </div>
-      </dl>
-    </div>
-  </div>
-  
+      </div>
+    </div>  
 </body>
 </html>
+
 
