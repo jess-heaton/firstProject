@@ -97,14 +97,23 @@ app.get('/profile', (req, res) => {
   }
 });
 
+function calculateAge(birthdate) {
+  const birthday = new Date(birthdate);
+  const today = new Date();
+  let age = today.getFullYear() - birthday.getFullYear();
+  const m = today.getMonth() - birthday.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+
 app.get('/profiles', async (req, res) => {
     if (req.session.loggedin) {
       const query = {};
-      const { course, minAge, maxAge, tag } = req.query;
+      const { minAge, maxAge, monthlyBudget, gender, lookingFor, moveInTimeframe } = req.query;
   
-      if (course) {
-        query.course = course;
-      }
       if (minAge) {
         query.age = { $gte: minAge };
       }
@@ -115,6 +124,23 @@ app.get('/profiles', async (req, res) => {
           query.age = { $lte: maxAge };
         }
       }
+
+      if (monthlyBudget) {
+        query.monthlyBudget = { $lte: monthlyBudget };
+      }
+
+      if (gender) {
+          query.gender = gender;
+      }
+
+      if (lookingFor) {
+          query.lookingFor = lookingFor; // Assuming this is an array of values
+      }
+      
+      if (moveInTimeframe) {
+        query.moveInTimeframe = moveInTimeframe; // Assuming this is an array of values
+    }
+      
       if (req.query.tags) {
         query.tags = req.query.tags;
       }
@@ -126,13 +152,19 @@ app.get('/profiles', async (req, res) => {
         const currentUser = await User.findById(req.session.userId);
         // Make sure to handle the case where currentUser might be null
         const savedProfiles = currentUser ? currentUser.savedProfiles.map(profile => profile.toString()) : [];
+
+        profiles.forEach(profile => {
+          profile.age = calculateAge(profile.birthdate);
+        });
+
+
         // Check if the request is an AJAX call
         if (req.xhr || req.headers.accept.indexOf('json') > -1) {
           // Send JSON response for AJAX request
           res.json(profiles);
         } else {
           // Render page for normal request
-          res.render('profiles', { profiles, savedProfiles });
+          res.render('profiles', { profiles, savedProfiles, query: req.query });
         }
       } catch (error) {
         console.error(error);
@@ -207,59 +239,65 @@ app.get('/profile/:id', async (req, res) => {
       console.error(error);
       res.status(500).send('Server Error');
     }
+
 });
-  
+
+
 app.post('/save-profile/:id', async (req, res) => {
-    if (!req.session.loggedin) {
+  if (!req.session.loggedin) {
       return res.status(401).send('You must be logged in to save profiles');
-    }
-    
-    try {
+  }
+
+  try {
       const userId = req.session.userId; // Or another way to identify the current user
       const profileToSaveId = req.params.id;
 
-
       // Find the current user
       const currentUser = await User.findById(userId);
+      let responseMessage = '';
 
       // Check if the profile is already saved
       if (currentUser.savedProfiles.includes(profileToSaveId)) {
-        // Profile is already saved; remove it
-        await User.findByIdAndUpdate(userId, {
-          $pull: { savedProfiles: profileToSaveId }
-        });
+          // Profile is already saved; remove it
+          await User.findByIdAndUpdate(userId, {
+              $pull: { savedProfiles: profileToSaveId }
+          });
+          responseMessage = 'Profile removed';
       } else {
-        // Profile not saved yet; add it
-        await User.findByIdAndUpdate(userId, {
-          $addToSet: { savedProfiles: profileToSaveId }
-        });
+          // Profile not saved yet; add it
+          await User.findByIdAndUpdate(userId, {
+              $addToSet: { savedProfiles: profileToSaveId }
+          });
+          responseMessage = 'Profile saved';
       }
       
-      res.status(200).send('Profile saved');
-    } catch (error) {
+      res.status(200).send(responseMessage);
+  } catch (error) {
       console.error(error);
       res.status(500).send('Error saving profile');
-    }
+  }
 });
-  
+
+
+
 app.get('/saved-profiles', async (req, res) => {
-    if (!req.session.loggedin) {
-      return res.redirect('/login');
+  if (!req.session.loggedin) {
+    return res.redirect('/login');
+  }
+  
+  try {
+    const user = await User.findById(req.session.userId).populate('savedProfiles');
+    if (user) {
+      res.render('saved-profiles', { profiles: user.savedProfiles, savedProfiles: user.savedProfiles.map(p => p._id.toString()) });
+    } else {
+      res.render('saved-profiles', { profiles: [], savedProfiles: [] });
     }
-    
-    try {
-      // Assuming you store the logged-in user's ID in the session
-      const user = await User.findById(req.session.userId).populate('savedProfiles');
-      if (user) {
-        res.render('saved-profiles', { profiles: user.savedProfiles });
-      } else {
-        res.status(404).send('User not found');
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Server Error');
-    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
 });
+
   
 // Logout Handler
 app.get('/logout', (req, res) => {

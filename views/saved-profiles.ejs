@@ -1,97 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-gray-100">
 <head>
   <meta charset="UTF-8">
-  <title>Saved Profiles - MatchMate</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background-color: #f7f7f7;
-    }
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #ffffff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 0 20px;
-    }
-    .navbar a {
-      text-decoration: none;
-      color: #333;
-      padding: 20px;
-      display: inline-block;
-    }
-    .navbar a:hover {
-      color: #000;
-    }
-    .site-name {
-      font-size: 22px;
-      font-weight: bold;
-    }
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .profile-card {
-      background-color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-    .profile-card:hover {
-      transform: translateY(-5px);
-    }
-    .profile-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .profile-info {
-      padding: 15px;
-    }
-    .profile-info h2 {
-      margin: 0 0 10px 0;
-      color: #333;
-      font-size: 20px;
-    }
-    .profile-info p {
-      margin: 4px 0;
-      color: #666;
-    }
-  </style>
+  <title>Saved Profiles</title>
+  <link rel="stylesheet" href="/dist/style.css">
 </head>
-<body>
-  <div class="navbar">
-    <a href="/" class="site-name">MatchMate</a>
-    <a href="/profile">Profile</a>
-    <a href="/saved-profiles">Saved Profiles</a>
-  </div>
-  <div class="grid-container">
-    <% if (profiles && profiles.length > 0) { %>
-      <% profiles.forEach(function(user) { %>
-        <div class="profile-card">
-          <a href="/profile/<%= user._id %>">
-              <img src="<%= user.image ? user.image : '/images/default-profile.jpg' %>" alt="<%= user.username %>">
-              <div class="profile-info">
-              <h2><%= user.username %></h2>
-              <p><%= user.bio %></p>
-              <p>Age: <%= user.age %></p>
-              <p>Gender: <%= user.gender %></p>
-              <p>Course: <%= user.course %></p>
+
+<body class="font-sans h-full">
+  <div class="min-h-full">
+      <nav class="bg-gray-800">
+          <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div class="flex h-16 items-center justify-between">
+                  <div class="flex items-center">
+                      <a href="/" class="flex-shrink-0">
+                          <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                      </a>
+                      <div class="hidden md:block">
+                          <div class="ml-10 flex items-baseline space-x-4">
+                              <a href="/profiles" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Listings</a>
+                              <a href="/edit-profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Profile</a>
+                              <a href="/saved-profiles" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Saved profiles</a>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="hidden md:flex items-center space-x-4">
+                      <a href="/profile" class="text-gray-300 hover:text-white">Profile</a>
+                  </div>
               </div>
-          </a>
+          </div>
+        </nav>
+
+      
+      <header class="bg-white shadow">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h1 class="text-6xl font-bold text-gray-900">Saved profiles</h1>
         </div>
-      <% }); %>
-    <% } else { %>
-      <p>No profiles saved yet.</p>
-    <% } %>
-  </div>
-</body>
-</html>
+      </header>
+
+
+      
+        <!-- Main content area -->
+        <main class="py-6 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-7xl">
+              <!-- Filter form simplified and aligned with Tailwind CSS -->
+              <form id="filter-form" action="/profiles" method="GET" class="flex flex-wrap gap-4 p-6 bg-white shadow sm:rounded-lg">
+                  <input type="text" name="course" placeholder="Course" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                  <input type="number" name="minAge" placeholder="Min Age" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                  <input type="number" name="maxAge" placeholder="Max Age" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                  <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
+              </form>
+
+              <div class="flex justify-between p-4 bg-white shadow sm:rounded-lg mt-4">
+                <a href="/profiles" class="text-gray-500 hover:text-gray-700 py-2">All</a>
+                <a href="/profiles?tags=sports" class="text-gray-500 hover:text-gray-700 py-2">Sports</a>
+                <a href="/profiles?tags=clubbing" class="text-gray-500 hover:text-gray-700 py-2">Clubbing</a>
+                <a href="/profiles?tags=arts" class="text-gray-500 hover:text-gray-700 py-2">Arts</a>
+                <a href="/profiles?tags=veggie" class="text-gray-500 hover:text-gray-700 py-2">Veggie</a>
+                <a href="/profiles?tags=stem"class="text-gray-500 hover:text-gray-700 py-2">STEM</a>
+                <a href="/profiles?tags=lgbtq2s-plus"class="text-gray-500 hover:text-gray-700 py-2">LGBTQ+</a>
+                <a href="/profiles?tags=party" class="text-gray-500 hover:text-gray-700 py-2">Party</a>
+                <a href="/profiles?tags=quiet" class="text-gray-500 hover:text-gray-700 py-2">Quiet</a>
+
+              </div>
+
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 p-4">
+                <% if (profiles && profiles.length > 0) { %>
+            
+                  <% profiles.forEach(function(user) { %>
+                    <a href="/profile/<%= user._id %>" class="profile-card-link">
+                      <div class="profile-card bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow duration-200 ease-in-out relative">
+                        <div class="p-4 pt-14">
+                          <button onclick="saveProfile('<%= user._id %>')" class="save-profile-button text-gray-400 hover:text-red-500 focus:outline-none absolute top-2 right-2 <%= savedProfiles.includes(user._id.toString()) ? 'saved' : '' %>">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="<%= savedProfiles.includes(user._id.toString()) ? 'currentColor' : 'none' %>" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>          
+                              </button>
+                              <h3 class="text-lg font-semibold text-gray-800"><%= user.username %></h3>
+                              <p class="text-gray-600"><%= user.gender %>, <%= user.age %></p>
+                              <div class="text-left text-base mb-8 text-gray-500">Looking for a housemate</div>
+                              <div class="text-left text-base mb-8 text-gray-500">Lorem ipsum is a placeholder text</div>
+                          </div>
+                        </div>
+                      </a> 
+                  <% }); %>
+                  <% } else { %>
+                    <p>No profiles saved yet.</p>
+                  <% } %>         
+              </div>
+            
+
+
+              
+          </div>
+      </main>
+
+</div>
+
+
+
+
+
+
+
+<script>
+  function saveProfile(profileId) {
+    fetch('/save-profile/' + profileId, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ profileId: profileId }),
+      credentials: 'include'
+    })
+    .then(response => {
+      if (response.ok) {
+        // Find the button for the saved profile and toggle the 'saved' class
+        const saveButton = document.querySelector(`button[onclick="saveProfile('${profileId}')"]`);
+        const icon = saveButton.querySelector('svg');
+        
+        if (saveButton.classList.contains('saved')) {
+          saveButton.classList.remove('saved');
+          icon.setAttribute('fill', 'none');
+        } else {
+          saveButton.classList.add('saved');
+          icon.setAttribute('fill', 'currentColor');
+        }
+        
+        saveButton.blur(); // Remove focus from the button after click
+      } else {
+        response.text().then(text => { alert(text); });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('An error occurred while saving the profile.');
+    });
+  }
+  
+      </script>
+  
+  
+  
+        <!-- Script for handling filter option clicks -->
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const filterOptions = document.querySelectorAll('.filter-option');
+            filterOptions.forEach(option => {
+              option.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Remove 'active' class from all options
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                // Add 'active' class to the clicked option
+                this.classList.add('active');
+                // Get the filter value from data-filter attribute
+                const filterValue = this.getAttribute('data-filter');
+                // Call the function to filter profiles
+                filterProfiles(filterValue);
+              });
+            });
+          });
+      
+          function filterProfiles(filterValue) {
+            // Implement the logic to filter profiles here.
+            // For example, you could send a fetch request to the server with the filter value and update the profiles listing with the response.
+            fetch(`/profiles?tag=${filterValue}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .then(response => response.json())
+            .then(data => {
+              // Update the profiles listing with the filtered data.
+              // This will depend on how you're displaying the profiles.
+              // You'll need to clear the existing profiles and append the new ones.
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+          }
+        </script>
+  </body>
+  
+  </html>

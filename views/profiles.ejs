@@ -13,19 +13,18 @@
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 items-center justify-between">
                     <div class="flex items-center">
-                        <a href="/" class="flex-shrink-0">
+                        <a href="/profiles" class="flex-shrink-0">
                             <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
                         </a>
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
                                 <a href="/profiles" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Listings</a>
-                                <a href="/saved-profiles" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Profile</a>
-                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Responses</a>
+                                <a href="/edit-profile" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Profile</a>
+                                <a href="/saved-profiles" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Saved profiles</a>
                             </div>
                         </div>
                     </div>
                     <div class="hidden md:flex items-center space-x-4">
-                        <a href="#" class="text-gray-300 hover:text-white">Notifications</a>
                         <a href="/profile" class="text-gray-300 hover:text-white">Profile</a>
                     </div>
                 </div>
@@ -45,49 +44,86 @@
             <div class="mx-auto max-w-7xl">
                 <!-- Filter form simplified and aligned with Tailwind CSS -->
                 <form id="filter-form" action="/profiles" method="GET" class="flex flex-wrap gap-4 p-6 bg-white shadow sm:rounded-lg">
-                    <input type="text" name="course" placeholder="Course" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <input type="number" name="minAge" placeholder="Min Age" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <input type="number" name="maxAge" placeholder="Max Age" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
+
+                  <input type="number" name="monthlyBudget" placeholder="Max Budget" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+
+                  <div class="flex flex-wrap gap-2">
+                    <label for="lookingFor" class="block text-sm font-medium text-gray-700">Looking for</label>
+                    <select id="lookingFor" name="lookingFor" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                      <option value="">Select an option</option>
+                      <option value="a room">Room</option>
+                      <option value="a group">Group</option>
+                      <option value="1 person">1 person</option>
+                      <option value="2 people">2 people</option>
+                      <option value="3 people">3 people</option>
+                    </select>
+                  </div>
+                  
+                  <div class="flex flex-wrap gap-2">
+                    <label for="moveInTimeframe" class="block text-sm font-medium text-gray-700">Move in</label>
+                    <select id="moveInTimeframe" name="moveInTimeframe" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                      <option value="">Select an option</option>
+                      <option value="Next year (24/25)">Next year (24/25)</option>
+                      <option value="ASAP">ASAP</option>
+                      <option value="custom">Custom</option>
+                    </select>
+                  </div>
+                  
+
+                  <input type="number" name="minAge" placeholder="Min Age" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                  <input type="number" name="maxAge" placeholder="Max Age" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    
+    
+                  <select id="gender" name="gender" class="input flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-binary">Non-binary</option>
+                  </select>
+                  
+                  <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
+
                 </form>
 
                 <div class="flex justify-between p-4 bg-white shadow sm:rounded-lg mt-4">
-                  <a href="/profiles" class="text-gray-500 hover:text-gray-700 py-2">All</a>
-                  <a href="/profiles?tags=sports" class="text-gray-500 hover:text-gray-700 py-2">Sports</a>
-                  <a href="/profiles?tags=clubbing" class="text-gray-500 hover:text-gray-700 py-2">Clubbing</a>
-                  <a href="/profiles?tags=arts" class="text-gray-500 hover:text-gray-700 py-2">Arts</a>
-                  <a href="/profiles?tags=veggie" class="text-gray-500 hover:text-gray-700 py-2">Veggie</a>
-                  <a href="/profiles?tags=stem"class="text-gray-500 hover:text-gray-700 py-2">STEM</a>
-                  <a href="/profiles?tags=lgbtq2s-plus"class="text-gray-500 hover:text-gray-700 py-2">LGBTQ+</a>
-                  <a href="/profiles?tags=party" class="text-gray-500 hover:text-gray-700 py-2">Party</a>
-                  <a href="/profiles?tags=quiet" class="text-gray-500 hover:text-gray-700 py-2">Quiet</a>
+                  <a href="/profiles" class="<%= !query.tags ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">All</a>
+                  <a href="/profiles?tags=sports" class="<%= query.tags === 'sports' ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">Sports</a>
+                  <a href="/profiles?tags=clubbing" class="<%= query.tags === 'clubbing' ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">Clubbing</a>
+                  <a href="/profiles?tags=arts" class="<%= query.tags === 'arts' ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">Arts</a>
+                  <a href="/profiles?tags=veggie" class="<%= query.tags === 'veggie' ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">Veggie</a>
+                  <a href="/profiles?tags=stem"class="<%= query.tags === 'stem' ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">STEM</a>
+                  <a href="/profiles?tags=lgbtq2s-plus"class="<%= query.tags === 'lgbtq2s-plus' ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">LGBTQ+</a>
+                  <a href="/profiles?tags=party" class="<%= query.tags === 'party' ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">Party</a>
+                  <a href="/profiles?tags=quiet" class="<%= query.tags === 'quiet' ? 'underline' : '' %> text-gray-500 hover:text-gray-700 py-2">Quiet</a>
 
                 </div>
 
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 p-4">
-                    <% profiles.forEach(function(user) { %>
-                      <a href="/profile/<%= user._id %>" class="profile-card-link"> <!-- Add this line -->
-                        <div class="profile-card bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow duration-200 ease-in-out">
-                            <div class="p-4">
-                                <button class="save-profile-button text-gray-400 hover:text-red-500 focus:outline-none">
-                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                  </svg>          
-                                </button>
-                                <h3 class="text-lg font-semibold text-gray-800"><%= user.username %></h3>
-                                <p class="text-gray-600"><%= user.gender %>, <%= user.age %></p>
-                                <div class="text-left text-base mb-8 text-gray-500">Looking for a housemate</div> <!-- Increased margin-bottom from mb-6 to mb-8 -->
-                                <div class="text-left text-base mb-8 text-gray-500">Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content</div> <!-- Increased margin-bottom from mb-6 to mb-8 -->
-                            </div>
-                          </div>
-                        </a> 
-                    <% }); %>
-                </div>
+                  <% profiles.forEach(function(user) { %>
+                    <!-- Removed the anchor tag from wrapping around the entire card to prevent the link action on saving. -->
+                    <div class="profile-card bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow duration-200 ease-in-out relative" onclick="window.location.href='/profile/<%= user._id %>'" style="cursor: pointer;">
+                      <div class="p-4 pt-14">
+                        <!-- Prevent the event from bubbling up to the parent div by calling event.stopPropagation() -->
+                        <button onclick="event.stopPropagation(); saveProfile('<%= user._id %>')" class="save-profile-button absolute top-2 right-2 w-6 h-6 <%= savedProfiles.includes(user._id.toString()) ? 'text-red-500 fill-current' : 'text-gray-400 hover:text-red-500' %>" >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="<%= savedProfiles.includes(user._id.toString()) ? 'currentColor' : 'none' %>" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                          </svg>
+                        </button>                                              
+                        <h3 class="text-lg font-semibold text-gray-800"><%= user.firstName %> <%= user.lastName %></h3>
+                        <p class="text-gray-600"><%= user.gender %>, <%= user.age %></p>
+                        <div class="text-left text-base mb-8 text-gray-500">Looking for <%= user.lookingFor %></div>
+                        <div class="text-left text-base mb-8 text-gray-500"><%= user.moveInTimeframe %></div>
+                        <div class="text-left text-base mb-8 text-gray-500"><%= user.about %></div>
+                      </div>
+                    </div>
+                  <% }); %>                
+                </div>          
+                
+
+
+
             </div>
         </main>
     </div>
-
-
 
 
 
@@ -102,19 +138,28 @@
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // Include CSRF token if needed
           },
-          body: JSON.stringify({ profileId: profileId }),
-          credentials: 'include' // If you're managing sessions
+          credentials: 'include'
         })
         .then(response => {
           if (response.ok) {
-            // Find the button for the saved profile and toggle the 'saved' class
-            const saveButton = document.querySelector(`button[onclick="saveProfile('${profileId}')"]`);
-            saveButton.classList.toggle('saved');
-            saveButton.blur(); // Remove focus from the button after click
+            // Toggle the classes based on the profile being saved or unsaved
+            return response.text().then(text => {
+              const saveButton = document.querySelector(`button[onclick="event.stopPropagation(); saveProfile('${profileId}')"]`);
+              const icon = saveButton.querySelector('svg');
+              if (text.includes('removed')) {
+                saveButton.classList.remove('text-red-500', 'fill-current');
+                saveButton.classList.add('text-gray-400', 'hover:text-red-500');
+                icon.setAttribute('fill', 'none');
+              } else {
+                saveButton.classList.add('text-red-500', 'fill-current');
+                saveButton.classList.remove('text-gray-400', 'hover:text-red-500');
+                icon.setAttribute('fill', 'currentColor');
+              }
+            });
           } else {
-            response.text().then(text => { alert(text); });
+            // If not OK, throw an error to be caught by the catch block
+            throw new Error('Server responded with an error.');
           }
         })
         .catch(error => {
@@ -122,10 +167,8 @@
           alert('An error occurred while saving the profile.');
         });
       }
-    </script>
-
-
-
+      </script>
+      
       <!-- Script for handling filter option clicks -->
       <script>
         document.addEventListener('DOMContentLoaded', () => {
